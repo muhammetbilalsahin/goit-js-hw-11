@@ -25,7 +25,7 @@ form.addEventListener('submit', async e => {
     const images = response.hits;
 
     if (images.length === 0) {
-      iziToast.warning({
+      iziToast.error({
         message:
           'Sorry, there are no images matching your search query. Please try again!',
         position: 'topRight',
@@ -67,7 +67,6 @@ function createGalleryMarkup(images) {
     )
     .join('');
 }
-
 function showLoader() {
   loader.classList.remove('hidden');
 }
