@@ -1,20 +1,40 @@
-// src/ui.js
+import SimpleLightbox from 'simplelightbox';
 
-export function createGalleryMarkup(images) {
-  return images
+let lightbox;
+
+export function renderGallery(images) {
+  const gallery = document.querySelector('.gallery');
+
+  const markup = images
     .map(
       img => `
-      <a href="${img.largeImageURL}" class="photo-card">
-        <img src="${img.webformatURL}" alt="${img.tags}" loading="lazy" />
-        <div class="info">
-          <p><b>Likes:</b> ${img.likes}</p>
-          <p><b>Views:</b> ${img.views}</p>
-          <p><b>Comments:</b> ${img.comments}</p>
-          <p><b>Downloads:</b> ${img.downloads}</p>
-        </div>
-      </a>`
+        <li class="photo-card">
+          <a href="${img.largeImageURL}">
+            <img src="${img.webformatURL}" alt="${img.tags}" loading="lazy" />
+          </a>
+          <div class="info">
+            <p><b>Likes:</b> ${img.likes}</p>
+            <p><b>Views:</b> ${img.views}</p>
+            <p><b>Comments:</b> ${img.comments}</p>
+            <p><b>Downloads:</b> ${img.downloads}</p>
+          </div>
+        </li>
+      `
     )
     .join('');
+
+  gallery.innerHTML = markup;
+
+  if (!lightbox) {
+    lightbox = new SimpleLightbox('.gallery a');
+  } else {
+    lightbox.refresh();
+  }
+}
+
+export function clearGallery() {
+  const gallery = document.querySelector('.gallery');
+  gallery.innerHTML = '';
 }
 
 export function showLoader() {
