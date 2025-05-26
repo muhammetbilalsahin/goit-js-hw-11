@@ -1,48 +1,69 @@
 import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
-let lightbox;
+const ul = document.querySelector('.gallery');
+let lightbox = new SimpleLightbox('.image-li a', {
+  captionDelay: 250,
+  captionsData: 'alt',
+});
 
-export function renderGallery(images) {
-  const gallery = document.querySelector('.gallery');
-
-  const markup = images
+export function createGallery(images) {
+  const appendHtml = images
     .map(
-      img => `
-        <li class="photo-card">
-          <a href="${img.largeImageURL}">
-            <img src="${img.webformatURL}" alt="${img.tags}" loading="lazy" />
-          </a>
-          <div class="info">
-            <p><b>Likes:</b> ${img.likes}</p>
-            <p><b>Views:</b> ${img.views}</p>
-            <p><b>Comments:</b> ${img.comments}</p>
-            <p><b>Downloads:</b> ${img.downloads}</p>
+      ({
+        largeImageURL,
+        webformatURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      }) => {
+        return `<li class="image-li">
+           <a href="${largeImageURL}"> <img class="li-img" src="${webformatURL}" alt="${tags
+          .split(',')
+          .slice(0, 3)
+          .join(',')}"> </a>
+          <div class="div-upper">
+            <ul>
+            <li>
+              <div class="div-inner"><b>Likes</b>
+            ${likes}</div>
+            </li>
+
+            <li>
+             <div class="div-inner"><b>Views</b>
+            ${views}</div>
+            </li>
+
+            <li>
+              <div class="div-inner"><b>Comments</b>
+            ${comments}</div>
+            </li>
+
+            <li>
+             <div class="div-inner"><b>Downloads</b>
+            ${downloads}</div>
+            </li>
+
+            </ul>
           </div>
-        </li>
-      `
+        </li>`;
+      }
     )
     .join('');
-
-  gallery.innerHTML = markup;
-
-  if (!lightbox) {
-    lightbox = new SimpleLightbox('.gallery a');
-  } else {
-    lightbox.refresh();
-  }
+  ul.insertAdjacentHTML('beforeend', appendHtml);
+  lightbox.refresh();
 }
 
 export function clearGallery() {
-  const gallery = document.querySelector('.gallery');
-  gallery.innerHTML = '';
+  ul.innerHTML = '';
 }
 
 export function showLoader() {
-  const loader = document.querySelector('#loader');
-  loader.classList.remove('hidden');
+  document.querySelector('.hidden').style.display = 'flex';
 }
 
 export function hideLoader() {
-  const loader = document.querySelector('#loader');
-  loader.classList.add('hidden');
+  document.querySelector('.hidden').style.display = 'none';
 }
