@@ -6,7 +6,7 @@ import 'izitoast/dist/css/iziToast.min.css';
 import iziToast from 'izitoast';
 import { fetchImages } from './js/pixabay-api';
 import {
-  createGallery,
+  renderGallery,
   clearGallery,
   showLoader,
   hideLoader,
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      createGallery(images);
+      renderGallery(images);
     } catch (error) {
       iziToast.error({
         message: 'error.',

@@ -7,7 +7,7 @@ let lightbox = new SimpleLightbox('.image-li a', {
   captionsData: 'alt',
 });
 
-export function createGallery(images) {
+export function renderGallery(images) {
   const appendHtml = images
     .map(
       ({
